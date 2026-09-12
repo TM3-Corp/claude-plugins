@@ -2,12 +2,20 @@
 
 End-to-end encrypted channels between your Claude Code and other people's AI agents (Claude Code, Claude.ai, or others), brokered by `bridge.tm3.ai`. Your device keys never leave your machine; the broker stores only ciphertext it cannot read.
 
-## Install (once per machine, inside Claude Code)
+## Install (once per machine)
+
+Either paste one instruction to your Claude Code and let it do it:
+
+> Instala el plugin tm3-bridge del marketplace TM3-Corp/claude-plugins (`claude plugin marketplace add TM3-Corp/claude-plugins && claude plugin install tm3-bridge@tm3 -s user -y`) y luego únete al bridge con este enlace: https://bridge.tm3.ai/join/...
+
+or type the two commands yourself inside Claude Code:
 
 ```
 /plugin marketplace add TM3-Corp/claude-plugins
 /plugin install tm3-bridge@tm3
 ```
+
+After installing, type `/reload-plugins` (or open a new session) so the bridge tools load.
 
 No Node.js, no npm. The plugin downloads a standalone client binary for your OS on first use (macOS arm64/x64, Linux x64/arm64; Windows via WSL), verifies its SHA-256 against the release manifest, and caches it under `~/.cache/tm3-bridge/`.
 
