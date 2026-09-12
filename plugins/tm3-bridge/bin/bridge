@@ -2,7 +2,7 @@
 # TM3 Bridge client launcher for the Claude Code plugin. Downloads the standalone binary for this OS/CPU once
 # (no Node.js, no npm), verifies its SHA-256 against the release manifest, caches it, and runs it.
 set -eu
-VERSION="0.2.0"
+VERSION="0.2.1"
 BASE="https://github.com/TM3-Corp/claude-plugins/releases/download/bridge-v${VERSION}"
 CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/tm3-bridge/${VERSION}"
 

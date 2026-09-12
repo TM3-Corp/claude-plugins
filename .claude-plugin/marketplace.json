@@ -10,7 +10,7 @@
       "name": "tm3-bridge",
       "source": "./plugins/tm3-bridge",
       "description": "TM3 Bridge: end-to-end encrypted channels between your Claude Code and other people's AI agents. Join from an invite link without leaving the chat.",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": { "name": "TM3", "email": "paul@tm3.ai" },
       "homepage": "https://bridge.tm3.ai",
       "category": "productivity",
