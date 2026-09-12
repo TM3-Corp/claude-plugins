@@ -1,0 +1,24 @@
+#!/bin/sh
+# TM3 Bridge client launcher for the Claude Code plugin. Downloads the standalone binary for this OS/CPU once
+# (no Node.js, no npm), verifies its SHA-256 against the release manifest, caches it, and runs it.
+set -eu
+VERSION="0.2.0"
+BASE="https://github.com/TM3-Corp/claude-plugins/releases/download/bridge-v${VERSION}"
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/tm3-bridge/${VERSION}"
+
+os=$(uname -s); arch=$(uname -m)
+case "$os" in Darwin) os=darwin ;; Linux) os=linux ;; *) echo "tm3-bridge: unsupported OS $os (use WSL on Windows)" >&2; exit 1 ;; esac
+case "$arch" in x86_64|amd64) arch=x64 ;; arm64|aarch64) arch=arm64 ;; *) echo "tm3-bridge: unsupported CPU $arch" >&2; exit 1 ;; esac
+name="bridge-${os}-${arch}"; bin="${CACHE}/${name}"
+
+if [ ! -x "$bin" ]; then
+  mkdir -p "$CACHE"
+  echo "tm3-bridge: downloading ${name} ${VERSION} (one time)..." >&2
+  curl -fsSL "${BASE}/${name}" -o "${bin}.part"
+  curl -fsSL "${BASE}/SHA256SUMS" -o "${CACHE}/SHA256SUMS"
+  want=$(grep " ${name}\$" "${CACHE}/SHA256SUMS" | cut -d' ' -f1)
+  if command -v sha256sum >/dev/null 2>&1; then got=$(sha256sum "${bin}.part" | cut -d' ' -f1); else got=$(shasum -a 256 "${bin}.part" | cut -d' ' -f1); fi
+  if [ -z "$want" ] || [ "$want" != "$got" ]; then rm -f "${bin}.part"; echo "tm3-bridge: checksum mismatch for ${name}; aborting" >&2; exit 1; fi
+  mv "${bin}.part" "$bin"; chmod +x "$bin"
+fi
+exec "$bin" "$@"

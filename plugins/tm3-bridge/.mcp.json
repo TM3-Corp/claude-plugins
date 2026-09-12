@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "tm3-bridge": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/bin/bridge",
+      "args": ["serve"],
+      "env": { "BRIDGE_URL": "https://bridge.tm3.ai" }
+    }
+  }
+}
